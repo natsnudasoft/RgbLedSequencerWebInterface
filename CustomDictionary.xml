@@ -1,0 +1,17 @@
+<Dictionary>
+  <Words>
+    <Unrecognized>
+    </Unrecognized>
+    <Recognized>
+      <Word>env</Word>
+      <Word>Rgb</Word>
+      <Word>Led</Word>
+      <Word>Natsnudasoft</Word>
+    </Recognized>
+    <Acronyms>
+      <CasingExceptions>
+      </CasingExceptions>
+    </Acronyms>
+    <Deprecated />
+  </Words>
+</Dictionary>

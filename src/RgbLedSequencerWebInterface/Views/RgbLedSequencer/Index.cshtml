@@ -1,0 +1,108 @@
+@{
+    this.ViewData["Title"] = "Rgb Led Sequencer Web Interface";
+}
+<br />
+<div ng-app="app">
+    <div ng-controller="rgbLedSequencerController as rgbLedSequencer">
+        <ng-form name="rgbLedSequencer.rgbLedSequencerForm">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Sequence Editor</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="rgb-led-container" ng-repeat="color in rgbLedSequencer.sequence[rgbLedSequencer.currentStep - 1].colors track by $index">
+                                        <div class="rgb-led-box-selectable" colorpicker="hex" colorpicker-with-input="true" colorpicker-size="175" ng-style="{'background-color': color.value}" ng-model="color.value"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="step-count-input">Step Count:</label>
+                                        <input id="step-count-input" type="number" min="1" max="{{rgbLedSequencer.maxStepCount}}" ng-model="rgbLedSequencer.stepCount" ng-change="rgbLedSequencer.syncSteps()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="current-step-input">Current Step:</label>
+                                        <input id="current-step-input" type="number" min="1" max="{{rgbLedSequencer.stepCount}}" ng-model="rgbLedSequencer.currentStep">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="step-delay-input">Step Delay:</label>
+                                        <input id="step-delay-input" type="number" min="0" max="{{rgbLedSequencer.maxStepDelay}}" ng-model="rgbLedSequencer.sequence[rgbLedSequencer.currentStep - 1].stepDelay">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Sequence Preview</div>
+                        <div class="panel-body">
+                            <div class="rgb-led-container" ng-repeat="color in rgbLedSequencer.sequence[rgbLedSequencer.currentPreviewStep - 1].colors track by $index">
+                                <div class="rgb-led-box" ng-style="{'background-color': color.value}" ng-model="color.value"></div>
+                            </div>
+                            <div>
+                                <span>Step: {{rgbLedSequencer.currentPreviewStep}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Sequence Queue</div>
+                        <div class="panel-body">
+                            <div>
+                                <div ng-if="rgbLedSequencer.enqueueSuccess">
+                                    <div class="alert alert-success" role="alert">
+                                        Sequence successfully enqueued.
+                                    </div>
+                                </div>
+                                <div ng-if="rgbLedSequencer.hasError">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{rgbLedSequencer.errorMessage}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sequence-name-input">Sequence Name:</label>
+                                    <input id="sequence-name-input" type="text" required ng-maxlength="100" ng-model="rgbLedSequencer.sequenceName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sequence-index-input">Target Sequence Index:</label>
+                                    <input id="sequence-index-input" type="number" min="0" max="{{rgbLedSequencer.sequenceCount - 1}}" ng-model="rgbLedSequencer.sequenceIndex">
+                                </div>
+                                <input ng-click="rgbLedSequencer.enqueueSequence()" ng-disabled="rgbLedSequencer.addingSequence || rgbLedSequencer.rgbLedSequencerForm.$invalid" class="btn btn-primary" type="button" value="Add Sequence to Queue" />
+                            </div>
+                            <div class="row">
+                                <hr />
+                            </div>
+                            <div id="sequence-queue">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Sequence Name</th>
+                                            <th>Target Sequence Index</th>
+                                            <th>Date Created</th>
+                                            <th>Estimated Queue Time</th>
+                                        </tr>
+                                        <tr ng-repeat="sequence in rgbLedSequencer.pageSequenceQueue track by sequence.id">
+                                            <td>{{sequence.sequenceName}}</td>
+                                            <td>{{sequence.sequenceIndex}}</td>
+                                            <td>{{rgbLedSequencer.getLocalDate(sequence.unixTimeMilliseconds)}}</td>
+                                            <td>TODO</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <nav aria-label="Sequence Queue Pages">
+                                    <ul class="pagination" uib-pagination total-items="rgbLedSequencer.totalItemCount" num-pages="rgbLedSequencer.pageCount" ng-model="rgbLedSequencer.currentPage" ng-change="rgbLedSequencer.sequenceQueuePageChanged()" ng-disabled="rgbLedSequencer.pageLoading"></ul>
+                                </nav>
+                                <a href="" ng-click="rgbLedSequencer.sendNextSequence()">Super Secret Force Next Sequence</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-form>
+    </div>
+</div>

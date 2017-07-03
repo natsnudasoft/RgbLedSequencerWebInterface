@@ -1,0 +1,9 @@
+/packages
+/.vs
+*.csproj.user
+*.pubxml.user
+bin
+obj
+/tools/coverage
+/tools/coverage.xml
+/src/RgbLedSequencerWebInterface/wwwroot/lib

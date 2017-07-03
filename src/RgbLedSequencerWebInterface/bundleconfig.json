@@ -1,0 +1,21 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/app-bundle.js",
+    "inputFiles": [
+      "wwwroot/js/app/rgb-led-sequencer/rgb-led-sequencer.module.js",
+      "wwwroot/js/app/rgb-led-sequencer/rgb-led-sequencer.controller.js",
+      "wwwroot/js/app/rgb-led-sequencer/rgb-led-sequencer-data.service.js",
+      "wwwroot/js/app/app.module.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]
